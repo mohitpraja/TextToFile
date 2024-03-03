@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -61,17 +62,29 @@ class HomeController extends GetxController {
   submitForm() async {
     loader();
     final Directory directory = await getApplicationDocumentsDirectory();
-    String id = DateTime.now().millisecondsSinceEpoch.toString();
-    final File file = File('${directory.path}/files/file_$id.txt');
+    String id = DateTime.now().millisecondsSinceEpoch.toString().substring(0,7);
+    final File file = File('${directory.path}/${name.text}_$id.txt');
     String textString =
         'Name : ${name.text} \nEmail : ${email.text} \nPhone : ${phone.text} \nRole : ${role.text} \nAbout : ${about.text}';
     await file.writeAsString(textString).then((value) {
-      Get.back();
-      Get.bottomSheet(Container(
-        height: 80,
-        color: Colors.white,
-        child: const Text("Your file is created & added to files "),
-      ));
+      log("done : ${file.path}");
+      Future.delayed(
+        const Duration(seconds: 1),
+        () {
+          Get.back();
+          showSnackBar('Your file is created & added to files');
+        },
+      );
     });
+  }
+
+  showSnackBar(text) {
+    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+        backgroundColor: Colors.black,
+        shape: const Border(top: BorderSide(width: 3, color: Colors.green)),
+        content: Text(
+          text,
+          style: const TextStyle(color: Colors.white),
+        )));
   }
 }

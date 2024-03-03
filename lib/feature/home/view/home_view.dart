@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:texttofile/core/routes.dart';
 import 'package:texttofile/feature/home/controller/home_controller.dart';
 import 'package:texttofile/widgets/custom_textform.dart';
 
@@ -19,7 +20,9 @@ class HomeView extends GetView<HomeController> {
           ),
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(Routes.files);
+                },
                 icon: const Icon(
                   Icons.sticky_note_2_sharp,
                   color: Colors.white,
