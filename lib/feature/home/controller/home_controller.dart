@@ -17,19 +17,11 @@ class HomeController extends GetxController {
 
   double textFieldSpacing = 18;
 
-  Future writeTextToFile() async {}
-
-  shareFile() async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final File file = File('${directory.path}/my_file.txt');
-    if (await file.exists()) {
-      Share.shareXFiles([XFile(file.path)]);
-    }
-  }
-
   isValid(value, msg) {
     if (value == null || value.isEmpty) {
       return msg;
+    } else if (value.length < 3) {
+      return 'value contain atleast 3 letter';
     }
     return null;
   }
@@ -62,8 +54,10 @@ class HomeController extends GetxController {
   submitForm() async {
     loader();
     final Directory directory = await getApplicationDocumentsDirectory();
-    String id = DateTime.now().millisecondsSinceEpoch.toString().substring(0,7);
-    final File file = File('${directory.path}/${name.text}_$id.txt');
+    String id =
+        DateTime.now().millisecondsSinceEpoch.toString().substring(0, 7);
+    final File file =
+        File('${directory.path}/${name.text.substring(0, 3)}_$id.txt');
     String textString =
         'Name : ${name.text} \nEmail : ${email.text} \nPhone : ${phone.text} \nRole : ${role.text} \nAbout : ${about.text}';
     await file.writeAsString(textString).then((value) {

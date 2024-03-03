@@ -39,7 +39,7 @@ class HomeView extends GetView<HomeController> {
               children: [
                 Form(
                     key: controller.formKey,
-                    autovalidateMode: AutovalidateMode.always,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: Column(
                       children: [
                         CustomTextFormField(
@@ -100,6 +100,7 @@ class HomeView extends GetView<HomeController> {
                               ),
                             ),
                             onPressed: () {
+                              Get.focusScope!.unfocus();
                               if (controller.formKey.currentState!.validate()) {
                                 controller.submitForm();
                               }
